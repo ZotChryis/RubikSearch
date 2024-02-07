@@ -18,13 +18,13 @@ public class WordSearchGenerator
         W,
         NW
     }
-    public struct WordSearch
+    public class WordSearch
     {
         public char[,] Characters;
         public List<WordAnswer> Answers;
     }
 
-    public struct WordAnswer
+    public class WordAnswer
     {
         public WordEntry WordEntry;
         public Board.Coordinate Start;
@@ -33,7 +33,7 @@ public class WordSearchGenerator
     }
 
     [Serializable]
-    public struct WordEntry
+    public class WordEntry
     {
         public string word;
         public string type;
@@ -292,6 +292,66 @@ public class WordSearchGenerator
         }
     }
 
+    public bool FindWordEntry(WordEntry wordEntry, char[,] characters, out WordAnswer answer)
+    {
+        answer = default;
+        for (int r = 0; r < characters.GetLength(0); r++)
+        {
+            for (int c = 0; c < characters.GetLength(1); c++)
+            {
+                if (FitsWordWest(wordEntry, characters, r, c, out WordAnswer potentialAnswerW))
+                {
+                    answer = potentialAnswerW;
+                    return true;
+                }
+
+                if (FitsWordEast(wordEntry, characters, r, c, out WordAnswer potentialAnswerE))
+                {
+                    answer = potentialAnswerE;
+                    return true;
+                }
+        
+                if (FitsWordNorth(wordEntry, characters, r, c, out WordAnswer potentialAnswerN))
+                {
+                    answer = potentialAnswerN;
+                    return true;
+                }
+        
+                if (FitsWordSouth(wordEntry, characters, r, c, out WordAnswer potentialAnswerS))
+                {
+                    answer = potentialAnswerS;
+                    return true;
+                }
+        
+                if (FitsWordNorthEast(wordEntry, characters, r, c, out WordAnswer potentialAnswerNE))
+                {
+                    answer = potentialAnswerNE;
+                    return true;
+                }
+        
+                if (FitsWordNorthWest(wordEntry, characters, r, c, out WordAnswer potentialAnswerNW))
+                {
+                    answer = potentialAnswerNW;
+                    return true;
+                }
+
+                if (FitsWordSouthEast(wordEntry, characters, r, c, out WordAnswer potentialAnswerSE))
+                {
+                    answer = potentialAnswerSE;
+                    return true;
+                }
+        
+                if (FitsWordSouthWest(wordEntry, characters, r, c, out WordAnswer potentialAnswerSW))
+                {
+                    answer = potentialAnswerSW;
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
     private bool FitsWordEast(
         WordEntry wordEntry,
         char[,] characters,
@@ -333,7 +393,7 @@ public class WordSearchGenerator
         return true;
     }
 
-    private bool FitsWordWest(
+    public bool FitsWordWest(
         WordEntry wordEntry,
         char[,] characters,
         int row,
@@ -373,7 +433,7 @@ public class WordSearchGenerator
         return true;
     }
 
-    private bool FitsWordNorth(
+    public bool FitsWordNorth(
         WordEntry wordEntry,
         char[,] characters,
         int row,
@@ -413,7 +473,7 @@ public class WordSearchGenerator
         return true;
     }
 
-    private bool FitsWordSouth(
+    public bool FitsWordSouth(
         WordEntry wordEntry,
         char[,] characters,
         int row,
@@ -454,7 +514,7 @@ public class WordSearchGenerator
         return true;
     }
 
-    private bool FitsWordNorthEast(
+    public bool FitsWordNorthEast(
         WordEntry wordEntry,
         char[,] characters,
         int row,
@@ -499,7 +559,7 @@ public class WordSearchGenerator
         return true;
     }
 
-    private bool FitsWordNorthWest(
+    public bool FitsWordNorthWest(
         WordEntry wordEntry,
         char[,] characters,
         int row,
@@ -543,7 +603,7 @@ public class WordSearchGenerator
         return true;
     }
 
-    private bool FitsWordSouthEast(
+    public bool FitsWordSouthEast(
         WordEntry wordEntry,
         char[,] characters,
         int row,
@@ -589,7 +649,7 @@ public class WordSearchGenerator
         return true;
     }
 
-    private bool FitsWordSouthWest(
+    public bool FitsWordSouthWest(
         WordEntry wordEntry,
         char[,] characters,
         int row,

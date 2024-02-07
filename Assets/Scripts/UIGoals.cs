@@ -8,7 +8,17 @@ public class UIGoals : MonoBehaviour
 
     private List<UIGoal> _goals = new List<UIGoal>();
     private Color[] _unusedColors;
-    
+
+    private void Start()
+    {
+        ServiceLocator.Instance.Board.OnEvaluation += OnBoardEvaluation;
+    }
+
+    private void OnBoardEvaluation(List<WordSearchGenerator.WordEntry> foundAnswers)
+    {
+        
+    }
+
     public void Setup(WordSearchGenerator.WordSearch wordSearch)
     {
         foreach (var uiGoal in _goals)

@@ -8,6 +8,8 @@ public class Game : MonoBehaviour
     public int WordCount { get; set; } = 3;
     public int MinWordLength { get; set; } = 3;
 
+    private WordSearchGenerator.WordSearch _wordSearch;
+
     private void Start()
     {
         Regenerate();
@@ -16,14 +18,14 @@ public class Game : MonoBehaviour
     public void Regenerate()
     {
         WordSearchGenerator wordSearchGenerator = ServiceLocator.Instance.WordSearchGenerator;
-        WordSearchGenerator.WordSearch wordSearch = wordSearchGenerator.GeneratePuzzle(
+        _wordSearch = wordSearchGenerator.GeneratePuzzle(
             Rows, 
             Cols, 
             WordCount, 
             MinWordLength
         );
         
-        ServiceLocator.Instance.Board.Setup(wordSearch);
-        ServiceLocator.Instance.Goals.Setup(wordSearch);
+        ServiceLocator.Instance.Board.Setup(_wordSearch);
+        ServiceLocator.Instance.Goals.Setup(_wordSearch);
     }
 }

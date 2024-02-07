@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Tile : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
     [SerializeField] private RectTransform rectTransform;
 
+    private char _char;
+    
     public Vector2 AnchoredPosition
     {
         get => rectTransform.anchoredPosition;
@@ -18,13 +19,14 @@ public class Tile : MonoBehaviour
     private int _row;
     private int _col;
     
-    public void SetText(string newText)
+    public void SetChar(char newChar)
     {
-        text.SetText(newText);
+        _char = newChar;
+        text.SetText(_char.ToString());
     }
 
-    public string GetText()
+    public char GetChar()
     {
-        return text.text;
+        return _char;
     }
 }

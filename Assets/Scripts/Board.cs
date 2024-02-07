@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -59,6 +61,8 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     private int _rows;
     private int _cols;
     private WordSearchGenerator.WordSearch _wordSearch;
+
+    public Action<List<WordSearchGenerator.WordEntry>> OnEvaluation;
     
     private void InitializeGrid(char[,] wordSearchCharacters)
     {
@@ -85,10 +89,12 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
                 );
                 tileTransform.anchoredPosition = anchoredPosition;
                 _grid[r, c] = tile;
+                
+                tile.SetChar(_wordSearch.Characters[r, c]);
             }
         }
     }
-
+    
     private void Clear()
     {
         for (var r = 0; r < _rows; r++)
@@ -99,6 +105,11 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
             }
         }
 
+        ClearLines();
+    }
+
+    private void ClearLines()
+    {
         if (_lines != null)
         {
             for (int i = 0; i < _lines.Count; i++)
@@ -114,52 +125,20 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         _unusedLineColors = new List<Color>(lineColors.Length);
         _unusedLineColors.AddRange(lineColors);
     }
-
+    
     public void Setup(WordSearchGenerator.WordSearch wordSearch)
     {
         _wordSearch = wordSearch;
         
         Clear();
         InitializeGrid(_wordSearch.Characters);
-        for (var r = 0; r < _rows; r++)
-        {
-            for (var c = 0; c < _cols; c++)
-            {
-                _grid[r, c].SetText(_wordSearch.Characters[r, c].ToString().ToUpper());
-            }
-        }
 
         _lines = new List<LineRenderer>();
         _lineOffset = new Vector3(TileSize / 2, -TileSize / 2, 0);
         
-        foreach (var wordSearchAnswer in wordSearch.Answers)
-        {
-            MarkAnswerDone(wordSearchAnswer);
-        }
+        CheckAnswers();
     }
-
-    public void MarkAnswerDone(WordSearchGenerator.WordAnswer answer)
-    {
-        // Create a new gameobject with the line renderer component
-        var line = Instantiate(linePrefab, linesParent.transform);
-        var color = GetUnusedLineColor();
-        line.startColor = color;
-        line.endColor = color;
-
-        Tile firstTile = _grid[answer.Start.Row, answer.Start.Col];
-        Tile lastTile = _grid[answer.End.Row, answer.End.Col];
-        line.SetPositions(new [] {firstTile.AnchoredPositionV3 + _lineOffset, lastTile.AnchoredPositionV3 + _lineOffset});
-
-        _lines.Add(line);
-    }
-
-    private Color GetUnusedLineColor()
-    {
-        var color = _unusedLineColors[Random.Range(0, _unusedLineColors.Count)];
-        _unusedLineColors.Remove(color);
-        return color;
-    }
-
+    
     public void OnBeginDrag(PointerEventData eventData)
     {
         //  Only accept left button drags
@@ -236,6 +215,7 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
                 _grid[_draggedTileRow, _cols - 1] = firstTile;
                 
                 SnapTilesInRow(_draggedTileRow);
+                CheckAnswers();
             }
             else if (lastTile.AnchoredPosition.x >= _rightShiftBoundary)
             {
@@ -247,6 +227,7 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
                 _grid[_draggedTileRow, 0] = lastTile;
                 
                 SnapTilesInRow(_draggedTileRow);
+                CheckAnswers();
             }
         }
         else if (_dragOrientation == DragOrientation.Vertical)
@@ -272,6 +253,7 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
                 _grid[_rows - 1, _draggedTileCol] = firstTile;
 
                 SnapTilesInCol(_draggedTileCol);
+                CheckAnswers();
             }
             else if (lastTile.AnchoredPosition.y <= _downShiftBoundary)
             {
@@ -283,6 +265,7 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
                 _grid[0, _draggedTileCol] = lastTile;
                 
                 SnapTilesInCol(_draggedTileCol);
+                CheckAnswers();
             }
         }
 
@@ -377,5 +360,55 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         {
             _grid[r, col].AnchoredPosition = new Vector2(TileSize * col, -TileSize * r);
         }
+    }
+
+    private void CheckAnswers()
+    {
+        ClearLines();
+        
+        char[,] characters = new char[_wordSearch.Characters.GetLength(0), _wordSearch.Characters.GetLength(1)];
+        for (int r = 0; r < characters.GetLength(0); r++)
+        {
+            for (int c = 0; c < characters.GetLength(1); c++)
+            {
+                characters[r, c] = _grid[r, c].GetChar();
+            }
+        }
+
+        var wordSearchGenerator = ServiceLocator.Instance.WordSearchGenerator;
+        List<WordSearchGenerator.WordEntry> completedAnswers = new List<WordSearchGenerator.WordEntry>();
+        foreach (var wordSearchAnswer in _wordSearch.Answers)
+        {
+            if (wordSearchGenerator.FindWordEntry(wordSearchAnswer.WordEntry, characters, out WordSearchGenerator.WordAnswer placedAnswer))
+            {
+                completedAnswers.Add(placedAnswer.WordEntry);
+                MarkAnswerDone(placedAnswer);
+            }
+        }
+        
+        OnEvaluation?.Invoke(completedAnswers);
+    }
+    
+    private Color GetUnusedLineColor()
+    {
+        var color = _unusedLineColors[Random.Range(0, _unusedLineColors.Count)];
+        _unusedLineColors.Remove(color);
+        return color;
+    }
+    
+    // todo: find a better home?
+    public void MarkAnswerDone(WordSearchGenerator.WordAnswer answer)
+    {
+        // Create a new gameobject with the line renderer component
+        var line = Instantiate(linePrefab, linesParent.transform);
+        var color = GetUnusedLineColor();
+        line.startColor = color;
+        line.endColor = color;
+
+        Tile firstTile = _grid[answer.Start.Row, answer.Start.Col];
+        Tile lastTile = _grid[answer.End.Row, answer.End.Col];
+        line.SetPositions(new [] {firstTile.AnchoredPositionV3 + _lineOffset, lastTile.AnchoredPositionV3 + _lineOffset});
+
+        _lines.Add(line);
     }
 }
