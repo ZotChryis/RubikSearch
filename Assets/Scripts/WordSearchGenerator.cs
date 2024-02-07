@@ -62,8 +62,15 @@ public class WordSearchGenerator
         while (successfulAnswers < wordCount && invalidAttempts < 1000)
         {
             WordEntry randomWordEntry = GetRandomWordEntry(Random.Range(minWordLength, rows));
+            if (randomWordEntry == null)
+            {
+                invalidAttempts++;
+                continue;
+            }
+            
             if (IsDuplicateWord(answers, randomWordEntry.word))
             {
+                invalidAttempts++;
                 continue;
             }
             
@@ -405,7 +412,7 @@ public class WordSearchGenerator
         var word = wordEntry.word;
 
         // If there is no sufficient space, we can exit early
-        if (col - word.Length < 0)
+        if (col - (word.Length - 1) < 0)
         {
             return false;
         }
@@ -445,7 +452,7 @@ public class WordSearchGenerator
         var word = wordEntry.word;
 
         // If there is no sufficient space, we can exit early
-        if (row - word.Length < 0)
+        if (row - (word.Length - 1) < 0)
         {
             return false;
         }
@@ -527,7 +534,7 @@ public class WordSearchGenerator
 
         // If there is no sufficient space, we can exit early
         int cols = characters.GetLength(1);
-        if (row - word.Length < 0)
+        if (row - (word.Length - 1)  < 0)
         {
             return false;
         }
@@ -571,11 +578,11 @@ public class WordSearchGenerator
         var word = wordEntry.word;
 
         // If there is no sufficient space, we can exit early
-        if (row - word.Length < 0)
+        if (row - (word.Length - 1)  < 0)
         {
             return false;
         }
-        if (col - word.Length < 0)
+        if (col - (word.Length - 1)  < 0)
         {
             return false;
         }
@@ -666,7 +673,7 @@ public class WordSearchGenerator
         {
             return false;
         }
-        if (col - word.Length < 0)
+        if (col - (word.Length - 1)  < 0)
         {
             return false;
         }
