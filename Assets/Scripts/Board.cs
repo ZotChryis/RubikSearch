@@ -17,8 +17,8 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     
     private List<LineRenderer> _lines;
     private List<Color> _unusedLineColors;
-    
-    public enum DragOrientation
+
+    private enum DragOrientation
     {
         None,
         Horizontal,
@@ -131,6 +131,11 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
 
         _lines = new List<LineRenderer>();
         _lineOffset = new Vector3(TileSize / 2, -TileSize / 2, 0);
+        
+        foreach (var wordSearchAnswer in wordSearch.Answers)
+        {
+            MarkAnswerDone(wordSearchAnswer);
+        }
     }
 
     public void MarkAnswerDone(WordSearchGenerator.WordAnswer answer)
@@ -373,5 +378,4 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
             _grid[r, col].AnchoredPosition = new Vector2(TileSize * col, -TileSize * r);
         }
     }
-
 }
