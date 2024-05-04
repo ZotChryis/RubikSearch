@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,9 +15,14 @@ public class UIGoals : MonoBehaviour
         ServiceLocator.Instance.Board.OnEvaluation += OnBoardEvaluation;
     }
 
+    private void OnDestroy()
+    {
+        ServiceLocator.Instance.Board.OnEvaluation -= OnBoardEvaluation;
+    }
+
     private void OnBoardEvaluation(List<WordSearchGenerator.WordEntry> foundAnswers)
     {
-        
+        // todo: cross out?
     }
 
     public void Setup(WordSearchGenerator.WordSearch wordSearch)
@@ -37,18 +43,18 @@ public class UIGoals : MonoBehaviour
 
     public void SetRows(string value)
     {
-        ServiceLocator.Instance.Game.Rows = int.Parse(value);
+        ServiceLocator.Instance.Game.Config.Rows = int.Parse(value);
     }
     public void SetCols(string value)
     {
-        ServiceLocator.Instance.Game.Cols = int.Parse(value);
+        ServiceLocator.Instance.Game.Config.Cols = int.Parse(value);
     }
     public void SetWordCount(string value)
     {
-        ServiceLocator.Instance.Game.WordCount = int.Parse(value);
+        ServiceLocator.Instance.Game.Config.WordCount = int.Parse(value);
     }
     public void SetMinWordLength(string value)
     {
-        ServiceLocator.Instance.Game.MinWordLength = int.Parse(value);
+        ServiceLocator.Instance.Game.Config.MinWordLength = int.Parse(value);
     }
 }

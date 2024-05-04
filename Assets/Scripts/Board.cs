@@ -207,26 +207,12 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
             //  Handle horizontal left side warp
             if (firstTile.AnchoredPosition.x <= _leftShiftBoundary)
             {
-                //  Move all elements in same row one column left
-                for (int c = 0; c < _cols - 1; c++)
-                {
-                    _grid[_draggedTileRow, c] = _grid[_draggedTileRow, c + 1];
-                }
-                _grid[_draggedTileRow, _cols - 1] = firstTile;
-                
-                SnapTilesInRow(_draggedTileRow);
+                ShiftRowLeft(_draggedTileRow);
                 CheckAnswers();
             }
             else if (lastTile.AnchoredPosition.x >= _rightShiftBoundary)
             {
-                //  Move all elements in same row one column right
-                for (int c = _cols - 1; c > 0; c--)
-                {
-                    _grid[_draggedTileRow, c] = _grid[_draggedTileRow, c - 1];
-                }
-                _grid[_draggedTileRow, 0] = lastTile;
-                
-                SnapTilesInRow(_draggedTileRow);
+                ShiftRowRight(_draggedTileRow);
                 CheckAnswers();
             }
         }
@@ -242,29 +228,15 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
             var firstTile = _grid[0, _draggedTileCol];
             var lastTile = _grid[_rows - 1, _draggedTileCol];
 
-            //  Handle horizontal left side warp
+            //  Handle vertical side warp
             if (firstTile.AnchoredPosition.y >= _upShiftBoundary)
             {
-                //  Move all elements in same col one row up
-                for (int r = 0; r < _rows - 1; r++)
-                {
-                    _grid[r, _draggedTileCol] = _grid[r + 1, _draggedTileCol];
-                }
-                _grid[_rows - 1, _draggedTileCol] = firstTile;
-
-                SnapTilesInCol(_draggedTileCol);
+                ShiftColumnUp(_draggedTileCol);
                 CheckAnswers();
             }
             else if (lastTile.AnchoredPosition.y <= _downShiftBoundary)
             {
-                //  Move all elements in same col one row down
-                for (int r = _rows - 1; r > 0; r--)
-                {
-                    _grid[r, _draggedTileCol] = _grid[r - 1, _draggedTileCol];
-                }
-                _grid[0, _draggedTileCol] = lastTile;
-                
-                SnapTilesInCol(_draggedTileCol);
+                ShiftColumnDown(_draggedTileCol);
                 CheckAnswers();
             }
         }
@@ -410,5 +382,87 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         line.SetPositions(new [] {firstTile.AnchoredPositionV3 + _lineOffset, lastTile.AnchoredPositionV3 + _lineOffset});
 
         _lines.Add(line);
+    }
+    
+    public void Shuffle()
+    {
+        // todo: make shuffle parameters in GameConfig?
+        // todo: make this better. randomly shuffling rows and cols around is good enough for now
+        for (int i = 0; i < 5; i++)
+        {
+            int randomCol = Random.Range(0, _cols);
+            int randomDir = Random.Range(0, 2);
+            if (randomDir == 0)
+            {
+                ShiftColumnDown(randomCol);
+            }
+            else
+            {
+                ShiftColumnUp(randomCol);
+            }
+        }
+        
+        for (int i = 0; i < 5; i++)
+        {
+            int randomRow = Random.Range(0, _rows);
+            int randomDir = Random.Range(0, 2);
+
+            if (randomDir == 0)
+            {
+                ShiftRowLeft(randomRow);
+            }
+            else
+            {
+                ShiftRowRight(randomRow);
+            }
+        }
+        
+        CheckAnswers();
+    }
+
+    private void ShiftColumnDown(int column)
+    {
+        var lastTile = _grid[_rows - 1, column];
+        for (int r = _rows - 1; r > 0; r--)
+        {
+            _grid[r, column] = _grid[r - 1, column];
+        }
+        _grid[0, column] = lastTile;
+                
+        SnapTilesInCol(column);
+    }
+    
+    private void ShiftColumnUp(int column)
+    {
+        var firstTile = _grid[0, column];
+        for (int r = 0; r < _rows - 1; r++)
+        {
+            _grid[r, column] = _grid[r + 1, column];
+        }
+        _grid[_rows - 1, column] = firstTile;
+        
+        SnapTilesInCol(column);
+    }
+    
+    private void ShiftRowRight(int row)
+    {
+        var lastTile = _grid[row, _cols - 1];
+        for (int c = _cols - 1; c > 0; c--)
+        {
+            _grid[row, c] = _grid[row, c - 1];
+        }
+        _grid[row, 0] = lastTile;
+        SnapTilesInRow(row);
+    }
+    
+    private void ShiftRowLeft(int row)
+    {
+        var firstTile = _grid[row, 0];
+        for (int c = 0; c < _cols - 1; c++)
+        {
+            _grid[row, c] = _grid[row, c + 1];
+        }
+        _grid[row, _cols - 1] = firstTile;
+        SnapTilesInRow(row);
     }
 }

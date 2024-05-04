@@ -90,7 +90,7 @@ public class WordSearchGenerator
             {
                 if (characters[r, c] == default)
                 {
-                    characters[r, c] = '-';//(char)('A' + Random.Range (0, 26));
+                    characters[r, c] = (char)('A' + Random.Range (0, 26));
                 }
             }
         }
@@ -116,7 +116,7 @@ public class WordSearchGenerator
             return false;
         }
 
-        // We only support wordCount that don't contain non-letter items, like hypens, apostraphes, etc.
+        // We only support wordCount that don't contain non-letter items, like hyphens, apostraphes, etc.
         if (!word.All(Char.IsLetter))
         {
             return false;
