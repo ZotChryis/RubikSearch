@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 
@@ -7,23 +8,22 @@ public class GameTimer : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_label;
 
-    private TimeSpan m_runningTime = TimeSpan.Zero;
-    private bool m_running = false;
+    private Stopwatch m_stopwatch = new Stopwatch();
     
     public void ResetTimer()
     {
-        m_runningTime = TimeSpan.Zero;
-        m_running = false;
+        m_stopwatch.Stop();
+        m_stopwatch.Reset();
     }
 
     public void StartTimer()
     {
-        m_running = true;
+        m_stopwatch.Start();
     }
 
     public void StopTimer()
     {
-        m_running = false;
+        m_stopwatch.Stop();
     }
 
     private void Start()
@@ -51,11 +51,6 @@ public class GameTimer : MonoBehaviour
 
     private void Update()
     {
-        if (m_running)
-        {
-            m_runningTime += TimeSpan.FromSeconds(Time.deltaTime);
-        }
-
-        m_label.SetText(m_runningTime.ToString());
+        m_label.SetText(m_stopwatch.Elapsed.ToString("hh':'mm':'ss':'fff"));
     }
 }
