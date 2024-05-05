@@ -5,6 +5,7 @@ public class Game : MonoBehaviour
 {
     public GameConfig Config { get; set; }
 
+    [SerializeField] private GameConfig m_defaultConfig;
     [SerializeField] private Canvas m_main;
     [SerializeField] private Canvas m_loading;
     [SerializeField] private Canvas m_game;
@@ -34,6 +35,7 @@ public class Game : MonoBehaviour
     
     private void Start()
     {
+        Config = m_defaultConfig;
         ServiceLocator.Instance.Board.OnEvaluation += OnBoardEvaluation;
     }
 
