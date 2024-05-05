@@ -81,7 +81,6 @@ public class SoundManager : MonoBehaviour
             return;
         }
         
-        Debug.Log("Request SFX: " + type);
         m_sfxAudioSource.PlayOneShot(_sfxMapping[type]);
     }
 }

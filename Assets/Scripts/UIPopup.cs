@@ -12,10 +12,16 @@ public class UIPopup : MonoBehaviour
         m_canvasGroup.blocksRaycasts = true;
     }
 
-    public void Hide()
+    public void Hide(bool suppressEvents = false)
     {
         m_canvasGroup.alpha = 0.0f;
         m_canvasGroup.blocksRaycasts = false;
+
+        if (suppressEvents)
+        {
+            return;
+        }
+        
         ServiceLocator.Instance.SoundManager.RequestSfx(SoundManager.Sfx.PopupExit);
     }
 

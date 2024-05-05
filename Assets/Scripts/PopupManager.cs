@@ -44,7 +44,7 @@ public class PopupManager : MonoBehaviour
         foreach (var popupConfig in Configs)
         {
             UIPopup instance = Instantiate(popupConfig.Prefab, Root);
-            instance.Hide();
+            instance.Hide(true);
             m_mapping.Add(popupConfig.Type, instance);
         }
     }
