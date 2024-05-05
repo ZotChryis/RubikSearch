@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b43f2db24acbb439a567312b2ca99c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Word: {fileID: 6009134443379882402}
-  Definition: {fileID: 3793276295115314039}
+  Title: {fileID: 6009134443379882402}
+  Description: {fileID: 3793276295115314039}
 --- !u!1 &2299488068610839750
 GameObject:
   m_ObjectHideFlags: 0

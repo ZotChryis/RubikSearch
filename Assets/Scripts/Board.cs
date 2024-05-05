@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [Header("Setup")] 
+    [Header("SetupText")] 
     [SerializeField] private RectTransform board;
     [SerializeField] private RectTransform grid;
     [SerializeField] private RectTransform linesParent;
