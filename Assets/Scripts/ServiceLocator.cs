@@ -13,6 +13,7 @@ public class ServiceLocator : MonoBehaviour
     [SerializeField] private TextAsset DictionaryJSON;
     
     public PopupManager PopupManager { get; private set; }
+    public SoundManager SoundManager { get; private set; }
     public Game Game { get; private set; }
     public Board Board { get; private set; }
     public UIGoals Goals { get; private set; }
@@ -30,6 +31,7 @@ public class ServiceLocator : MonoBehaviour
         
         // Find all MonoBehaviour game systems.
         PopupManager = FindObjectOfType<PopupManager>();
+        SoundManager = FindObjectOfType<SoundManager>();
         Game = FindObjectOfType<Game>();
         Board = FindObjectOfType<Board>();
         Goals = FindObjectOfType<UIGoals>();

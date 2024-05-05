@@ -99,6 +99,7 @@ public class Game : MonoBehaviour
     private IEnumerator DelayedWinner()
     {
         yield return new WaitForSeconds(0.5f);
+        ServiceLocator.Instance.SoundManager.RequestSfx(SoundManager.Sfx.Win);
         ServiceLocator.Instance.PopupManager.RequestPopup(PopupManager.PopupType.Win);
     }
 }

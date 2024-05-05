@@ -16,6 +16,7 @@ public class UIPopup : MonoBehaviour
     {
         m_canvasGroup.alpha = 0.0f;
         m_canvasGroup.blocksRaycasts = false;
+        ServiceLocator.Instance.SoundManager.RequestSfx(SoundManager.Sfx.PopupExit);
     }
 
     private void Start()

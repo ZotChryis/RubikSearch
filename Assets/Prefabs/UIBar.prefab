@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 5256910558415205245}
   - component: {fileID: 5658025850928819051}
   m_Layer: 0
-  m_Name: Bar
+  m_Name: UIBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

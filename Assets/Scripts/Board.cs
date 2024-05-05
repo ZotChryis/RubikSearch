@@ -207,11 +207,13 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
             {
                 ShiftRowLeft(_draggedTileRow);
                 CheckAnswers();
+                ServiceLocator.Instance.SoundManager.RequestSfx(SoundManager.Sfx.GridSnap);
             }
             else if (lastTile.AnchoredPosition.x >= _rightShiftBoundary)
             {
                 ShiftRowRight(_draggedTileRow);
                 CheckAnswers();
+                ServiceLocator.Instance.SoundManager.RequestSfx(SoundManager.Sfx.GridSnap);
             }
         }
         else if (_dragOrientation == DragOrientation.Vertical)
@@ -231,11 +233,13 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
             {
                 ShiftColumnUp(_draggedTileCol);
                 CheckAnswers();
+                ServiceLocator.Instance.SoundManager.RequestSfx(SoundManager.Sfx.GridSnap);
             }
             else if (lastTile.AnchoredPosition.y <= _downShiftBoundary)
             {
                 ShiftColumnDown(_draggedTileCol);
                 CheckAnswers();
+                ServiceLocator.Instance.SoundManager.RequestSfx(SoundManager.Sfx.GridSnap);
             }
         }
 

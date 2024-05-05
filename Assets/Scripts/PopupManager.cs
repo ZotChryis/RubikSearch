@@ -9,6 +9,7 @@ public class PopupManager : MonoBehaviour
         Info,
         PatchNotes,
         Win,
+        Options,
     }
     
     [Serializable]
