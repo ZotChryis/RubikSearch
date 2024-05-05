@@ -130,6 +130,8 @@ MonoBehaviour:
     Prefab: {fileID: 6489784465381874149, guid: 0145cdc8318245c41a8469c2f02f9723, type: 3}
   - Type: 1
     Prefab: {fileID: 3207428010964831023, guid: 144e0bc51b6d3a645a2a437377bba3b2, type: 3}
+  - Type: 2
+    Prefab: {fileID: 3099029191310302275, guid: 678b812e8cb8bb1478d95d54122bad1a, type: 3}
   SharedBG: {fileID: 8196651780927450091}
   Root: {fileID: 2258567547840956029}
 --- !u!1 &4185365606464607028

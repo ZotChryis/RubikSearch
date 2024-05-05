@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 5221354062685851676}
   - component: {fileID: 1197742780493628187}
   - component: {fileID: 7916766145203215990}
+  - component: {fileID: 6741999996258704168}
   m_Layer: 0
   m_Name: Back
   m_TagString: Untagged
@@ -166,6 +167,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6741999996258704168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2298657926116703841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c15ff6f5532cf44afa7da8f63cb611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_button: {fileID: 7916766145203215990}
+  m_close: 0
+  m_mainMenu: 1
 --- !u!1 &2354639990392366860
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,7 +822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6218429872416067834}
   - component: {fileID: 4439607162909915922}
-  - component: {fileID: 3734824391798274178}
+  - component: {fileID: 1657022539423750855}
   m_Layer: 0
   m_Name: Timer
   m_TagString: Untagged
@@ -843,7 +859,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4214503890889535366}
   m_CullTransparentMesh: 1
---- !u!114 &3734824391798274178
+--- !u!114 &1657022539423750855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -852,7 +868,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4214503890889535366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d68a2573647065c44a3102b39944b173, type: 3}
+  m_Script: {fileID: 11500000, guid: aa1e3c5563a82894f981f4c1baee6ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_label: {fileID: 217125393594210305}

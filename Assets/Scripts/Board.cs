@@ -135,8 +135,6 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
 
         _lines = new List<LineRenderer>();
         _lineOffset = new Vector3(TileSize / 2, -TileSize / 2, 0);
-        
-        CheckAnswers();
     }
     
     public void OnBeginDrag(PointerEventData eventData)

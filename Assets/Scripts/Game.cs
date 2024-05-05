@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Game : MonoBehaviour
 {
     public GameConfig Config { get; set; }
+    public Stopwatch Timer { get; private set; } = new Stopwatch();
 
     [SerializeField] private GameConfig m_defaultConfig;
     [SerializeField] private Canvas m_main;
@@ -17,7 +20,7 @@ public class Game : MonoBehaviour
     public OnGameEnd OnGameEndEvent;
     
     private WordSearchGenerator.WordSearch _wordSearch;
-
+    
     public void Regenerate()
     {
         WordSearchGenerator wordSearchGenerator = ServiceLocator.Instance.WordSearchGenerator;
@@ -48,7 +51,7 @@ public class Game : MonoBehaviour
     {
         if (words.Count >= _wordSearch.Answers.Count)
         {
-            TempEndGame();
+            TempWinGame();
         }
     }
     
@@ -67,15 +70,21 @@ public class Game : MonoBehaviour
         // todo: loading system
         m_loading.enabled = false;
         
+        Timer.Stop();
+        Timer.Restart();
+        
         OnGameStartEvent?.Invoke();
     }
 
-    public void TempEndGame()
+    public void TempWinGame()
     {
+        Timer.Stop();
         OnGameEndEvent?.Invoke();
+        
+        StartCoroutine(DelayedWinner());
     }
 
-    public void TempBack()
+    public void TempReturnToMenu()
     {
         // Hide the game
         m_game.enabled = false;
@@ -85,5 +94,11 @@ public class Game : MonoBehaviour
         
         // todo: loading system
         m_loading.enabled = false;
+    }
+
+    private IEnumerator DelayedWinner()
+    {
+        yield return new WaitForSeconds(0.5f);
+        ServiceLocator.Instance.PopupManager.RequestPopup(PopupManager.PopupType.Win);
     }
 }
