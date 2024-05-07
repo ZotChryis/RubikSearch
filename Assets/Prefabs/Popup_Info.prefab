@@ -1159,15 +1159,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 324162138009989926, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_text
-      value: Rubik Word Search
+      value: HOW TO PLAY
       objectReference: {fileID: 0}
     - target: {fileID: 324162138009989926, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_fontSize
-      value: 32
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 324162138009989926, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_fontSizeBase
-      value: 32
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 324162138009989926, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1551438356212658899, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2109496141733190115, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1295,28 +1303,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7187587767164836339, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_text
-      value: '
-
-        Select a difficulty, then click play to begin.
+      value: 'Click and drag columns or rows to shift cells, like a 2D rubiks cube!
 
 
-        Click
-        and drag columns or rows to shift cells.
+        Find
+        ALL words AT ONCE to win.
 
 
-        Find ALL words AT ONCE
-        to win.
-
-
-        Do it as fast as possible for the best score.
-
-
-        Good
-        luck!'
+        Do it as fast as possible for the best
+        score. Good luck!'
       objectReference: {fileID: 0}
     - target: {fileID: 7187587767164836339, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_fontSize
-      value: 20
+      value: 29.95
       objectReference: {fileID: 0}
     - target: {fileID: 7187587767164836339, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_margin.w
@@ -1328,15 +1327,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7187587767164836339, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_fontSizeMax
-      value: 20
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 7187587767164836339, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_VerticalAlignment
-      value: 256
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 7187587767164836339, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_HorizontalAlignment
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7742520885505255604, guid: 7be2a5bf3e28c5e48a5d251bd7af2105, type: 3}
       propertyPath: m_AnchorMax.y
