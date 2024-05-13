@@ -4,12 +4,15 @@ using UnityEngine.UI;
 public class UIPopup : MonoBehaviour
 {
     [SerializeField] private CanvasGroup m_canvasGroup;
+    [SerializeField] private RectTransform m_content;
     [SerializeField] private Button[] m_closeButtons;
 
     public void Show()
     {
         m_canvasGroup.alpha = 1.0f;
         m_canvasGroup.blocksRaycasts = true;
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(m_content);
     }
 
     public void Hide(bool suppressEvents = false)

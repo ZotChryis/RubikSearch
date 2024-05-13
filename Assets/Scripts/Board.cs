@@ -18,7 +18,6 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     [SerializeField] private Color[] lineColors;
     
     private List<LineRenderer> _lines;
-    private List<Color> _unusedLineColors;
 
     private enum DragOrientation
     {
@@ -62,7 +61,7 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     private int _cols;
     private WordSearchGenerator.WordSearch _wordSearch;
 
-    public Action<List<WordSearchGenerator.WordEntry>> OnEvaluation;
+    public Action<List<WordSearchGenerator.WordAnswer>> OnEvaluation;
     
     private void InitializeGrid(char[,] wordSearchCharacters)
     {
@@ -121,9 +120,6 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
             }
             _lines.Clear();
         }
-
-        _unusedLineColors = new List<Color>(lineColors.Length);
-        _unusedLineColors.AddRange(lineColors);
     }
     
     public void Setup(WordSearchGenerator.WordSearch wordSearch)
@@ -139,6 +135,11 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!ServiceLocator.Instance.Game.IsGameActive)
+        {
+            return;
+        }
+        
         //  Only accept left button drags
         if (eventData.button != PointerEventData.InputButton.Left)
         {
@@ -154,6 +155,11 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!ServiceLocator.Instance.Game.IsGameActive)
+        {
+            return;
+        }
+        
         //  Only accept left button drags
         if (eventData.button != PointerEventData.InputButton.Left)
         {
@@ -247,6 +253,11 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!ServiceLocator.Instance.Game.IsGameActive)
+        {
+            return;
+        }
+        
         //  Only accept left button drags
         if (eventData.button != PointerEventData.InputButton.Left)
         {
@@ -350,32 +361,28 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         }
 
         var wordSearchGenerator = ServiceLocator.Instance.WordSearchGenerator;
-        List<WordSearchGenerator.WordEntry> completedAnswers = new List<WordSearchGenerator.WordEntry>();
-        foreach (var wordSearchAnswer in _wordSearch.Answers)
+        List<WordSearchGenerator.WordAnswer> completedAnswers = new List<WordSearchGenerator.WordAnswer>();
+        for (var i = 0; i < _wordSearch.Answers.Count; i++)
         {
+            var wordSearchAnswer = _wordSearch.Answers[i];
             if (wordSearchGenerator.FindWordEntry(wordSearchAnswer.WordEntry, characters, out WordSearchGenerator.WordAnswer placedAnswer))
             {
-                completedAnswers.Add(placedAnswer.WordEntry);
-                MarkAnswerDone(placedAnswer);
+                completedAnswers.Add(placedAnswer);
+                MarkAnswerDone(placedAnswer, i);
             }
         }
-        
+
         OnEvaluation?.Invoke(completedAnswers);
     }
-    
-    private Color GetUnusedLineColor()
-    {
-        var color = _unusedLineColors[Random.Range(0, _unusedLineColors.Count)];
-        _unusedLineColors.Remove(color);
-        return color;
-    }
-    
+
     // todo: find a better home?
-    public void MarkAnswerDone(WordSearchGenerator.WordAnswer answer)
+    public void MarkAnswerDone(WordSearchGenerator.WordAnswer answer, int answerIndex)
     {
         // Create a new gameobject with the line renderer component
         var line = Instantiate(linePrefab, linesParent.transform);
-        var color = GetUnusedLineColor();
+        
+        // todo: make this safer
+        var color = lineColors[answerIndex];
         line.startColor = color;
         line.endColor = color;
 
@@ -383,6 +390,9 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         Tile lastTile = _grid[answer.End.Row, answer.End.Col];
         line.SetPositions(new [] {firstTile.AnchoredPositionV3 + _lineOffset, lastTile.AnchoredPositionV3 + _lineOffset});
 
+        answer.Line = line;
+        answer.Color = color;
+        
         _lines.Add(line);
     }
     

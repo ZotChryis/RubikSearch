@@ -30,6 +30,9 @@ public class WordSearchGenerator
         public Board.Coordinate Start;
         public Board.Coordinate End;
         public Direction Direction;
+
+        public LineRenderer Line;
+        public Color Color;
     }
 
     [Serializable]

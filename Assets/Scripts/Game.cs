@@ -8,6 +8,8 @@ public class Game : MonoBehaviour
     public GameConfig Config { get; set; }
     public Stopwatch Timer { get; private set; } = new Stopwatch();
 
+    public bool IsGameActive => Timer.IsRunning;
+    
     [SerializeField] private GameConfig m_defaultConfig;
     [SerializeField] private Canvas m_main;
     [SerializeField] private Canvas m_loading;
@@ -40,6 +42,8 @@ public class Game : MonoBehaviour
     {
         Config = m_defaultConfig;
         ServiceLocator.Instance.Board.OnEvaluation += OnBoardEvaluation;
+
+        ServiceLocator.Instance.SoundManager.RequestMusic(SoundManager.Music.Main);
     }
 
     private void OnDestroy()
@@ -47,7 +51,7 @@ public class Game : MonoBehaviour
         ServiceLocator.Instance.Board.OnEvaluation -= OnBoardEvaluation;
     }
 
-    private void OnBoardEvaluation(List<WordSearchGenerator.WordEntry> words)
+    private void OnBoardEvaluation(List<WordSearchGenerator.WordAnswer> words)
     {
         if (words.Count >= _wordSearch.Answers.Count)
         {

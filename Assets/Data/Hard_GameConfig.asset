@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rows: 5
   Cols: 5
-  WordCount: 4
+  WordCount: 5
   MinWordLength: 4

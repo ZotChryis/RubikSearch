@@ -20,6 +20,8 @@ public class SoundManager : MonoBehaviour
         PopupExit = 4,
         
         Win = 5,
+        
+        AnswerFound = 6,
     }
 
     [Serializable]
@@ -47,7 +49,7 @@ public class SoundManager : MonoBehaviour
     private Dictionary<Music, AudioClip> _musicMapping = new Dictionary<Music, AudioClip>();
     private Dictionary<Sfx, AudioClip> _sfxMapping = new Dictionary<Sfx, AudioClip>();
 
-    private void Start()
+    private void Awake()
     {
         foreach (var entry in m_musicEntries)
         {
@@ -63,15 +65,15 @@ public class SoundManager : MonoBehaviour
 
     public void ApplySettings()
     {
-        //m_musicAudioSource.volume = MusicVolume;
+        m_musicAudioSource.volume = MusicVolume;
         m_sfxAudioSource.volume = SfxVolume;
     }
 
     public void RequestMusic(Music type)
     {
-        //m_musicAudioSource.clip = _musicMapping[type];
-        //m_musicAudioSource.loop = true;
-        //m_musicAudioSource.Play();
+        m_musicAudioSource.clip = _musicMapping[type];
+        m_musicAudioSource.loop = true;
+        m_musicAudioSource.Play();
     }
     
     public void RequestSfx(Sfx type)

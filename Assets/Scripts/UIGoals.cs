@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIGoals : MonoBehaviour
 {
-    [SerializeField] private Transform WordListParent;
+    [SerializeField] private RectTransform WordListParent;
     [SerializeField] private GameObject GoalPrefab;
 
     private List<UIGoal> _goals = new List<UIGoal>();
@@ -20,9 +21,18 @@ public class UIGoals : MonoBehaviour
         ServiceLocator.Instance.Board.OnEvaluation -= OnBoardEvaluation;
     }
 
-    private void OnBoardEvaluation(List<WordSearchGenerator.WordEntry> foundAnswers)
+    private void OnBoardEvaluation(List<WordSearchGenerator.WordAnswer> foundAnswers)
     {
-        // todo: cross out?
+        foreach (var foundAnswer in foundAnswers)
+        {
+            foreach (var uiGoal in _goals)
+            {
+                if (foundAnswer.WordEntry == uiGoal.Answer.WordEntry)
+                {
+                    uiGoal.Setup(foundAnswer);
+                }
+            }
+        }
     }
 
     public void Setup(WordSearchGenerator.WordSearch wordSearch)
@@ -39,6 +49,8 @@ public class UIGoals : MonoBehaviour
             uiGoal.Setup(wordSearchAnswer);
             _goals.Add(uiGoal);
         }
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(WordListParent);
     }
 
     public void SetRows(string value)
