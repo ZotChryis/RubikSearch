@@ -6173,6 +6173,7 @@ GameObject:
   - component: {fileID: 1791274708174130219}
   - component: {fileID: 345918393815031465}
   - component: {fileID: 8821412196278935167}
+  - component: {fileID: 3426618833806665542}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -6264,7 +6265,7 @@ Animation:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8589331158636369247}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: fe4fc4c928cc1b04ab159386bf935f80, type: 2}
   m_Animations:
@@ -6273,6 +6274,32 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &3426618833806665542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8589331158636369247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12e43a75085d2ad4fb71afd7f265fd78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Scale:
+    Animate: 1
+    EndValue: {x: 1.25, y: 1.25, z: 1.25}
+    Time: 0.5
+    Ease: 2
+    Loops: -1
+    LoopType: 1
+  Position:
+    Animate: 0
+    EndValue: {x: 0, y: 0, z: 0}
+    Time: 0
+    Ease: 0
+    Loops: 0
+    LoopType: 0
 --- !u!1 &8891763110878076494
 GameObject:
   m_ObjectHideFlags: 0

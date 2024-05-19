@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,15 +24,20 @@ public class UIGoals : MonoBehaviour
 
     private void OnBoardEvaluation(List<WordSearchGenerator.WordAnswer> foundAnswers)
     {
-        foreach (var foundAnswer in foundAnswers)
+        foreach (var uiGoal in _goals)
         {
-            foreach (var uiGoal in _goals)
+            uiGoal.MarkInProgress();
+        }
+
+        foreach (var uiGoal in _goals)
+        {
+            var answer = foundAnswers.Find(answer => answer.WordEntry == uiGoal.Answer.WordEntry);
+            if (answer == null)
             {
-                if (foundAnswer.WordEntry == uiGoal.Answer.WordEntry)
-                {
-                    uiGoal.Setup(foundAnswer);
-                }
+                continue;
             }
+            
+            uiGoal.MarkDone(answer);
         }
     }
 

@@ -361,18 +361,18 @@ public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         }
 
         var wordSearchGenerator = ServiceLocator.Instance.WordSearchGenerator;
-        List<WordSearchGenerator.WordAnswer> completedAnswers = new List<WordSearchGenerator.WordAnswer>();
+        List<WordSearchGenerator.WordAnswer> answers = new List<WordSearchGenerator.WordAnswer>();
         for (var i = 0; i < _wordSearch.Answers.Count; i++)
         {
             var wordSearchAnswer = _wordSearch.Answers[i];
             if (wordSearchGenerator.FindWordEntry(wordSearchAnswer.WordEntry, characters, out WordSearchGenerator.WordAnswer placedAnswer))
             {
-                completedAnswers.Add(placedAnswer);
                 MarkAnswerDone(placedAnswer, i);
+                answers.Add(placedAnswer);
             }
         }
 
-        OnEvaluation?.Invoke(completedAnswers);
+        OnEvaluation?.Invoke(answers);
     }
 
     // todo: find a better home?

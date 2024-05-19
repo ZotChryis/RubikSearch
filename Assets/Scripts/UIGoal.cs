@@ -6,22 +6,26 @@ public class UIGoal : UIEntry
     [SerializeField] private Image m_doneLine;
 
     public WordSearchGenerator.WordAnswer Answer { get; private set; }
-    
+
     public void Setup(WordSearchGenerator.WordAnswer wordSearchAnswer)
     {
         Answer = wordSearchAnswer;
+        MarkInProgress();
         
         base.SetupText(
             wordSearchAnswer.WordEntry.word, 
             wordSearchAnswer.WordEntry.description
         );
-
-        MarkDone(wordSearchAnswer);
     }
 
-    private void MarkDone(WordSearchGenerator.WordAnswer answer)
+    public void MarkDone(WordSearchGenerator.WordAnswer answer)
     {
-        m_doneLine.enabled = answer.Line != null;
+        m_doneLine.enabled = true;
         m_doneLine.color = answer.Color;
+    }
+
+    public void MarkInProgress()
+    {
+        m_doneLine.enabled = false;
     }
 }
